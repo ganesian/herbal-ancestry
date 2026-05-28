@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>喝安 Herbal Ancestry — Ba Zi Analysis</title>
+  <meta name="description" content="Discover your Four Pillars of Destiny with 喝安 Herbal Ancestry. Accurate Ba Zi analysis using true solar time." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design Tokens ──────────────────────────────────────── */
+    :root {
+      --ivory:       #f7e7ce;
+      --ivory-dark:  #eedcb8;
+      --ivory-deep:  #e5d0a0;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97e;
+      --gold-muted:  #a8894a;
+      --gold-pale:   #f0dfa8;
+      --brown:       #5c4a2a;
+      --brown-light: #7a6040;
+      --cream:       #fdf6ec;
+      --text-main:   #3a2e1e;
+      --text-muted:  #7a6040;
+      --text-light:  #a89070;
+      --border:      #d4b870;
+      --border-soft: #e8d89a;
+      --shadow:      rgba(90, 60, 10, 0.12);
+      --shadow-deep: rgba(90, 60, 10, 0.22);
+      --radius:      4px;
+      --transition:  0.3s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+      background: var(--ivory);
+      color: var(--text-main);
+      font-size: 17px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Decorative background ──────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 20%, rgba(201,168,76,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 70% at 85% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Nav ────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247,231,206,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo .char {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--gold-muted);
+      line-height: 1;
+    }
+
+    .nav-logo .name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--brown);
+    }
+
+    .nav-tagline {
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* ── Hero Section ───────────────────────────────────────── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 80px 40px 60px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero-headline {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .hero-headline .chinese-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 300;
+      color: var(--gold-muted);
+      letter-spacing: 0.15em;
+      line-height: 1;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .hero-headline .english-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--brown-light);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .hero-headline .subtitle {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-muted);
+    }
+
+    .divider {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 20px auto;
+    }
+
+    /* ── Form Card ──────────────────────────────────────────── */
+    .form-card {
+      background: var(--cream);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      padding: clamp(28px, 5vw, 56px);
+      box-shadow: 0 4px 32px var(--shadow), 0 1px 4px var(--shadow);
+      position: relative;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--brown);
+      letter-spacing: 0.06em;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 28px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      nav { padding: 12px 20px; }
+      .hero { padding: 48px 20px 40px; }
+      .form-card { padding: 28px 20px; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+    }
+
+    label span.optional {
+      font-size: 11px;
+      color: var(--text-light);
+      text-transform: none;
+      letter-spacing: 0;
+      margin-left: 6px;
+    }
+
+    input, select {
+      background: var(--ivory);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      font-family: 'EB Garamond', serif;
+      font-size: 16px;
+      color: var(--text-main);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23a89070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+
+    input::placeholder { color: var(--text-light); }
+
+    /* City autocomplete */
+    .city-wrapper { position: relative; }
+
+    .city-suggestions {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0; right: 0;
+      background: var(--cream);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 50;
+      box-shadow: 0 8px 24px var(--shadow);
+      display: none;
+    }
+
+    .city-suggestions.open { display: block; }
+
+    .city-suggestion-item {
+      padding: 10px 14px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background var(--transition);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .city-suggestion-item:last-child { border-bottom: none; }
+    .city-suggestion-item:hover { background: var(--ivory-dark); }
+
+    .city-suggestion-item .city-name { color: var(--text-main); }
+    .city-suggestion-item .city-detail { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+
+    /* Date & time row */
+    .date-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Gender toggle */
+    .gender-toggle {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .gender-option {
+      flex: 1;
+      text-align: center;
+      padding: 10px 14px;
+      font-family: 'EB Garamond', serif;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+      color: var(--text-muted);
+      background: var(--ivory);
+      border: none;
+      border-right: 1px solid var(--border-soft);
+      outline: none;
+    }
+
+    .gender-option:last-child { border-right: none; }
+
+    .gender-option.active {
+      background: var(--gold-muted);
+      color: var(--cream);
+    }
+
+    /* WhatsApp row */
+    .wa-row {
+      display: flex;
+      gap: 0;
+    }
+
+    .country-code-select {
+      width: 110px;
+      flex-shrink: 0;
+      border-right: none;
+      border-radius: var(--radius) 0 0 var(--radius);
+      background-color: var(--ivory-dark);
+    }
+
+    .wa-input {
+      flex: 1;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    /* CTA Button */
+    .cta-btn {
+      display: block;
+      width: 100%;
+      margin-top: 28px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, var(--gold-muted) 0%, var(--gold) 50%, var(--gold-muted) 100%);
+      background-size: 200% 200%;
+      color: var(--cream);
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: background-position var(--transition), box-shadow var(--transition), transform 0.15s;
+      box-shadow: 0 4px 16px rgba(168,137,74,0.3);
+    }
+
+    .cta-btn:hover {
+      background-position: right center;
+      box-shadow: 0 6px 24px rgba(168,137,74,0.45);
+      transform: translateY(-1px);
+    }
+
+    .cta-btn:active { transform: translateY(0); }
+    .cta-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── Loading ─────────────────────────────────────────────── */
+    .loading-section {
+      text-align: center;
+      padding: 60px 40px;
+      display: none;
+    }
+
+    .loading-section.visible { display: block; }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--border-soft);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 17px;
+    }
+
+    /* ── Results Section ─────────────────────────────────────── */
+    .results-section {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 40px 60px;
+      display: none;
+    }
+
+    .results-section.visible { display: block; }
+
+    @media (max-width: 600px) {
+      .results-section { padding: 0 20px 40px; }
+    }
+
+    .results-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .results-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--brown);
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .results-header .subject {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .solar-time-note {
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    /* ── Result Box ──────────────────────────────────────────── */
+    .result-box {
+      background: var(--cream);
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 16px var(--shadow);
+      overflow: hidden;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-box:nth-child(2) { animation-delay: 0.1s; }
+    .result-box:nth-child(3) { animation-delay: 0.2s; }
+
+    .result-box-header {
+      background: linear-gradient(to right, var(--brown), var(--brown-light));
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .result-box-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--gold-pale);
+      letter-spacing: 0.06em;
+    }
+
+    .result-box-badge {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,223,168,0.6);
+    }
+
+    .result-box-body {
+      padding: 24px;
+    }
+
+    /* Pillars grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .pillar-card {
+      border: 1px solid var(--border-soft);
+      border-radius: 6px;
+      background: var(--ivory);
+      text-align: center;
+      padding: 16px 8px;
+      position: relative;
+    }
+
+    .pillar-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .pillar-chinese {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--brown);
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .pillar-stem, .pillar-branch {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .pillar-stem { color: var(--gold-muted); font-weight: 500; }
+
+    .pillar-element-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    /* Element colors */
+    .el-WOOD { background: #4a7c45; }
+    .el-FIRE { background: #c0392b; }
+    .el-EARTH { background: #8b7355; }
+    .el-METAL { background: #8a8a8a; }
+    .el-WATER { background: #2e6da4; }
+    .text-WOOD { color: #4a7c45; }
+    .text-FIRE { color: #c0392b; }
+    .text-EARTH { color: #8b7355; }
+    .text-METAL { color: #6a6a6a; }
+    .text-WATER { color: #2e6da4; }
+
+    /* Additional info */
+    .additional-info {
+      border-top: 1px solid var(--border-soft);
+      padding-top: 16px;
+    }
+
+    .additional-info-title {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 12px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .info-item {
+      background: var(--ivory);
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+
+    .info-item-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+
+    .info-item-value {
+      font-size: 15px;
+      color: var(--text-main);
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    /* Five Elements bar */
+    .five-elements {
+      margin-top: 12px;
+    }
+
+    .five-el-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .five-el-name {
+      width: 46px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .five-el-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: var(--ivory-dark);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .five-el-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+
+    .five-el-count {
+      width: 32px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: left;
+    }
+
+    /* Error state */
+    .result-error {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ── Save CTA ─────────────────────────────────────────────── */
+    .save-section {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .pdf-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: var(--ivory-dark);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--brown);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .pdf-btn:hover {
+      background: var(--gold-pale);
+      border-color: var(--gold);
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+
+    /* ── Notification ─────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--brown);
+      color: var(--gold-pale);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 200;
+      transition: transform 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      background: var(--brown);
+      color: var(--ivory-dark);
+      text-align: center;
+      padding: 48px 40px;
+    }
+
+    footer .footer-logo {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 28px;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+      letter-spacing: 0.1em;
+    }
+
+    footer .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(232,201,126,0.6);
+      margin-bottom: 24px;
+    }
+
+    footer .contact-cta {
+      display: inline-block;
+      padding: 14px 36px;
+      background: transparent;
+      border: 1px solid var(--gold-light);
+      border-radius: var(--radius);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--gold-light);
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    footer .contact-cta:hover {
+      background: var(--gold-muted);
+      color: var(--cream);
+      border-color: var(--gold-muted);
+    }
+
+    footer .copyright {
+      margin-top: 32px;
+      font-size: 13px;
+      color: rgba(232,201,126,0.35);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Print / PDF styles ──────────────────────────────────── */
+    @media print {
+      nav, .hero-headline, .form-card, .loading-section, .save-section, footer, .cta-btn { display: none !important; }
+      .results-section { display: block !important; padding: 20px; }
+      body { background: white; }
+      .result-box { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="char">喝安</span>
+    <span class="name">Herbal Ancestry</span>
+  </a>
+  <span class="nav-tagline">Four Pillars of Destiny</span>
+</nav>
+
+<!-- ── Hero / Input Section ───────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-headline">
+    <span class="chinese-title">喝安</span>
+    <div class="divider"></div>
+    <span class="english-title">Herbal Ancestry</span>
+    <p class="subtitle">Reveal the Four Pillars woven into the moment of your birth</p>
+  </div>
+
+  <div class="form-card">
+    <p class="form-title">Enter Your Birth Information</p>
+
+    <div class="form-grid">
+
+      <!-- City of Birth -->
+      <div class="form-group full-width">
+        <label for="city-input">City of Birth</label>
+        <div class="city-wrapper">
+          <input
+            id="city-input"
+            type="text"
+            placeholder="e.g. Jakarta, Shanghai, Singapore..."
+            autocomplete="off"
+          />
+          <div class="city-suggestions" id="city-suggestions"></div>
+        </div>
+      </div>
+
+      <!-- Date of Birth -->
+      <div class="form-group">
+        <label for="birth-date">Date of Birth</label>
+        <div class="date-row">
+          <select id="birth-year">
+            <option value="">Year</option>
+          </select>
+          <select id="birth-month">
+            <option value="">Month</option>
+            <option value="1">Jan</option><option value="2">Feb</option>
+            <option value="3">Mar</option><option value="4">Apr</option>
+            <option value="5">May</option><option value="6">Jun</option>
+            <option value="7">Jul</option><option value="8">Aug</option>
+            <option value="9">Sep</option><option value="10">Oct</option>
+            <option value="11">Nov</option><option value="12">Dec</option>
+          </select>
+          <select id="birth-day">
+            <option value="">Day</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Time of Birth -->
+      <div class="form-group">
+        <label for="birth-hour">Time of Birth</label>
+        <div class="date-row" style="grid-template-columns: 1fr 1fr;">
+          <select id="birth-hour">
+            <option value="">Hour</option>
+          </select>
+          <select id="birth-minute">
+            <option value="">Min</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group full-width">
+        <label>Gender</label>
+        <div class="gender-toggle">
+          <button class="gender-option active" data-gender="male" onclick="setGender('male')">Male</button>
+          <button class="gender-option" data-gender="female" onclick="setGender('female')">Female</button>
+        </div>
+      </div>
+
+      <!-- Optional: Name -->
+      <div class="form-group">
+        <label for="user-name">Name <span class="optional">(optional)</span></label>
+        <input id="user-name" type="text" placeholder="Your name" />
+      </div>
+
+      <!-- Optional: WhatsApp -->
+      <div class="form-group">
+        <label for="wa-number">WhatsApp <span class="optional">(optional)</span></label>
+        <div class="wa-row">
+          <select class="country-code-select" id="country-code">
+            <option value="+62">+62 ID</option>
+            <option value="+1">+1 US</option>
+            <option value="+44">+44 UK</option>
+            <option value="+65">+65 SG</option>
+            <option value="+60">+60 MY</option>
+            <option value="+61">+61 AU</option>
+            <option value="+86">+86 CN</option>
+            <option value="+852">+852 HK</option>
+            <option value="+886">+886 TW</option>
+            <option value="+81">+81 JP</option>
+            <option value="+82">+82 KR</option>
+            <option value="+91">+91 IN</option>
+            <option value="+63">+63 PH</option>
+            <option value="+66">+66 TH</option>
+            <option value="+84">+84 VN</option>
+          </select>
+          <input class="wa-input" id="wa-number" type="tel" placeholder="812 3456 7890" />
+        </div>
+      </div>
+
+    </div><!-- /.form-grid -->
+
+    <button class="cta-btn" id="calculate-btn" onclick="calculateBazi()">
+      Reveal My Four Pillars
+    </button>
+  </div>
+</section>
+
+<!-- ── Loading ─────────────────────────────────────────────────── -->
+<div class="loading-section" id="loading-section">
+  <div class="spinner"></div>
+  <p class="loading-text">Consulting the pillars of heaven and earth…</p>
+</div>
+
+<!-- ── Results Section ─────────────────────────────────────────── -->
+<section class="results-section" id="results-section">
+  <div class="results-header">
+    <h2>Your Four Pillars of Destiny</h2>
+    <p class="subject" id="result-subject"></p>
+  </div>
+  <div class="solar-time-note" id="solar-time-note"></div>
+  <div id="results-container"></div>
+
+  <div class="save-section">
+    <button class="pdf-btn" onclick="saveToPDF()">Save To PDF</button>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">喝安</div>
+  <div class="footer-name">Herbal Ancestry</div>
+  <a
+    class="contact-cta"
+    href="https://wa.me/6282126221527"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Contact Us For 1 on 1 Ba Zi Reading
+  </a>
+  <p class="copyright">© 2025 喝安 Herbal Ancestry. For educational and reflective purposes.</p>
+</footer>
+
+<!-- ── Toast ───────────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+
+<script>
+// ── Populate year / day / time dropdowns ───────────────────────
+(function initDropdowns() {
+  const yearSel = document.getElementById('birth-year');
+  const daySel = document.getElementById('birth-day');
+  const hourSel = document.getElementById('birth-hour');
+  const minSel = document.getElementById('birth-minute');
+
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 1930; y--) {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    yearSel.appendChild(o);
+  }
+
+  function updateDays() {
+    const y = parseInt(yearSel.value) || 2000;
+    const m = parseInt(document.getElementById('birth-month').value) || 1;
+    const max = new Date(y, m, 0).getDate();
+    const cur = parseInt(daySel.value);
+    daySel.innerHTML = '<option value="">Day</option>';
+    for (let d = 1; d <= max; d++) {
+      const o = document.createElement('option');
+      o.value = d; o.textContent = d;
+      if (d === cur) o.selected = true;
+      daySel.appendChild(o);
+    }
+  }
+
+  document.getElementById('birth-month').addEventListener('change', updateDays);
+  yearSel.addEventListener('change', updateDays);
+  updateDays();
+
+  for (let h = 0; h < 24; h++) {
+    const o = document.createElement('option');
+    o.value = h;
+    o.textContent = String(h).padStart(2, '0') + ':00';
+    hourSel.appendChild(o);
+  }
+
+  for (let m = 0; m < 60; m += 5) {
+    const o = document.createElement('option');
+    o.value = m;
+    o.textContent = ':' + String(m).padStart(2, '0');
+    minSel.appendChild(o);
+  }
+})();
+
+// ── Gender toggle ─────────────────────────────────────────────
+let selectedGender = 'male';
+function setGender(g) {
+  selectedGender = g;
+  document.querySelectorAll('.gender-option').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.gender === g);
+  });
+}
+
+// ── City autocomplete via Open Street Map Nominatim ──────────
+let cityData = null; // { name, lat, lon, country }
+let searchTimeout = null;
+
+const cityInput = document.getElementById('city-input');
+const cityDropdown = document.getElementById('city-suggestions');
+
+cityInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  cityData = null;
+  const q = cityInput.value.trim();
+  if (q.length < 2) { cityDropdown.classList.remove('open'); return; }
+  searchTimeout = setTimeout(() => searchCities(q), 350);
+});
+
+cityInput.addEventListener('blur', () => {
+  setTimeout(() => cityDropdown.classList.remove('open'), 200);
+});
+
+async function searchCities(q) {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=8&featuretype=city&addressdetails=1`;
+    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+    const data = await res.json();
+    renderCitySuggestions(data);
+  } catch { cityDropdown.classList.remove('open'); }
+}
+
+function renderCitySuggestions(results) {
+  cityDropdown.innerHTML = '';
+  if (!results.length) { cityDropdown.classList.remove('open'); return; }
+  results.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'city-suggestion-item';
+    const city = r.address?.city || r.address?.town || r.address?.village || r.name;
+    const detail = [r.address?.state, r.address?.country].filter(Boolean).join(', ');
+    div.innerHTML = `<div class="city-name">${city}</div><div class="city-detail">${detail}</div>`;
+    div.addEventListener('mousedown', () => {
+      cityInput.value = city + (detail ? `, ${detail}` : '');
+      cityData = { name: city, lat: parseFloat(r.lat), lon: parseFloat(r.lon), country: r.address?.country };
+      cityDropdown.classList.remove('open');
+    });
+    cityDropdown.appendChild(div);
+  });
+  cityDropdown.classList.add('open');
+}
+
+// ── True Solar Time calculation ──────────────────────────────
+function calcTrueSolarTime(year, month, day, localHour, localMinute, longitude) {
+  // Equation of Time (minutes) — simplified Spencer formula
+  const dayOfYear = Math.floor((Date.UTC(year, month - 1, day) - Date.UTC(year, 0, 0)) / 86400000);
+  const B = (360 / 365) * (dayOfYear - 81) * (Math.PI / 180);
+  const eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B); // minutes
+
+  // Longitude correction: 4 min per degree from standard meridian
+  // We use the offset from UTC via longitude directly
+  const longitudeCorrection = longitude * 4; // minutes
+
+  const localMinutes = localHour * 60 + localMinute;
+  const solarMinutes = localMinutes + eot + longitudeCorrection - (getUTCOffsetMinutes(longitude));
+
+  const solarHour = Math.floor(((solarMinutes % 1440) + 1440) % 1440 / 60);
+  const solarMin = Math.floor(((solarMinutes % 1440) + 1440) % 1440 % 60);
+  return { hour: solarHour, minute: solarMin };
+}
+
+function getUTCOffsetMinutes(lon) {
+  // Approximate UTC offset from longitude
+  return Math.round(lon / 15) * 60;
+}
+
+// ── Gmuli-style pillar calculation (pure JS, no server needed) ─
+// Based on: https://github.com/Gmuli/Gmuli-Bazi-Calc
+// Implements 60 Jiazi cycle with solar term month boundaries
+
+const STEMS = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BRANCHES = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const ANIMALS_EN = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+const ELEMENTS_MAP = {
+  '甲':'Wood','乙':'Wood','丙':'Fire','丁':'Fire','戊':'Earth',
+  '己':'Earth','庚':'Metal','辛':'Metal','壬':'Water','癸':'Water'
+};
+const BRANCH_EL_MAP = {
+  '子':'Water','丑':'Earth','寅':'Wood','卯':'Wood','辰':'Earth','巳':'Fire',
+  '午':'Fire','未':'Earth','申':'Metal','酉':'Metal','戌':'Earth','亥':'Water'
+};
+
+// Sexagenary cycle for year: 甲子 = 4/1984, cycle of 60
+function getSexagenary(index) {
+  return STEMS[index % 10] + BRANCHES[index % 12];
+}
+
+function getYearPillar(year) {
+  // 甲子 year = 1984; year index within cycle
+  const idx = (year - 1984 + 600) % 60;
+  return getSexagenary(idx);
+}
+
+// Month pillar: based on solar terms (approximate)
+// Solar term months: Yin (寅) starts ~Feb 4
+const SOLAR_TERM_MONTHS = [
+  // [month_branch_index, approx_start_day_of_month, gregorian_month]
+  // 寅月 ~ Feb 4, 卯月 ~ Mar 6, etc.
+  { branch: 2, startMonth: 2, startDay: 4 },   // 寅
+  { branch: 3, startMonth: 3, startDay: 6 },   // 卯
+  { branch: 4, startMonth: 4, startDay: 5 },   // 辰
+  { branch: 5, startMonth: 5, startDay: 6 },   // 巳
+  { branch: 6, startMonth: 6, startDay: 6 },   // 午
+  { branch: 7, startMonth: 7, startDay: 7 },   // 未
+  { branch: 8, startMonth: 8, startDay: 7 },   // 申
+  { branch: 9, startMonth: 9, startDay: 8 },   // 酉
+  { branch: 10, startMonth: 10, startDay: 8 }, // 戌
+  { branch: 11, startMonth: 11, startDay: 7 }, // 亥
+  { branch: 0, startMonth: 12, startDay: 7 },  // 子
+  { branch: 1, startMonth: 1, startDay: 6 },   // 丑
+];
+
+function getMonthBranchIndex(year, month, day) {
+  // Find which solar term period we're in
+  let branchIdx = 1; // default 丑
+  for (let i = 0; i < SOLAR_TERM_MONTHS.length; i++) {
+    const st = SOLAR_TERM_MONTHS[i];
+    if (month === st.startMonth && day >= st.startDay) {
+      branchIdx = st.branch;
+    } else if (month === st.startMonth && day < st.startDay) {
+      // Before this term's start, use previous
+      const prev = SOLAR_TERM_MONTHS[(i - 1 + 12) % 12];
+      branchIdx = prev.branch;
+    } else if (month > st.startMonth && (i === SOLAR_TERM_MONTHS.length - 1 || month < SOLAR_TERM_MONTHS[i+1].startMonth)) {
+      branchIdx = st.branch;
+    }
+  }
+  // Special: Jan before 丑 start is still 子
+  if (month === 1 && day < 6) branchIdx = 0; // 子
+  return branchIdx;
+}
+
+function getMonthStemIndex(yearStemIdx, monthBranchIdx) {
+  // Month stem follows cycle: year stem determines starting month stem
+  // 甲/己年 → 寅月 starts with 丙, i.e., stem index 2
+  const baseMap = [2, 4, 6, 8, 0]; // for years 甲,乙,丙,丁,戊 (0-4) and 己,庚,辛,壬,癸 (5-9 same)
+  const yearGroup = yearStemIdx % 5;
+  const stemStart = [2, 4, 6, 8, 0][yearGroup]; // 丙,戊,庚,壬,甲
+  // 寅 is branch index 2; offset from 寅
+  const offset = (monthBranchIdx - 2 + 12) % 12;
+  return (stemStart + offset) % 10;
+}
+
+function getDayPillar(year, month, day) {
+  // Day pillar: use formula based on Julian Day Number
+  const a = Math.floor((14 - month) / 12);
+  const y = year - a;
+  const m = month + 12 * a - 2;
+  const jdn = day + Math.floor((153 * m + 2) / 5) + 365 * y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+  // 甲子 day: JDN 2455927 = 2012-01-06 (甲子)
+  const idx = (jdn - 2455927 + 60000) % 60;
+  return { stemIdx: idx % 10, branchIdx: idx % 12 };
+}
+
+function getHourPillar(dayStemIdx, hour) {
+  const HOUR_BRANCHES = [
+    [23,1,0],[1,3,1],[3,5,2],[5,7,3],[7,9,4],[9,11,5],
+    [11,13,6],[13,15,7],[15,17,8],[17,19,9],[19,21,10],[21,23,11]
+  ];
+  let branchIdx = 0;
+  for (const [s, e, b] of HOUR_BRANCHES) {
+    if ((s === 23 && (hour >= 23 || hour < 1)) || (hour >= s && hour < e)) {
+      branchIdx = b; break;
+    }
+  }
+  const stemStart = (dayStemIdx * 2) % 10;
+  const stemIdx = (stemStart + branchIdx) % 10;
+  return { stemIdx, branchIdx };
+}
+
+function buildPillarInfo(stemIdx, branchIdx) {
+  const stem = STEMS[stemIdx];
+  const branch = BRANCHES[branchIdx];
+  return {
+    chinese: stem + branch,
+    stem,
+    branch,
+    stemElement: ELEMENTS_MAP[stem],
+    branchElement: BRANCH_EL_MAP[branch],
+    animal: ANIMALS_EN[branchIdx]
+  };
+}
+
+function calcGmuliPillars(year, month, day, hour) {
+  const yearPillarStr = getYearPillar(year);
+  const yearStemIdx = STEMS.indexOf(yearPillarStr[0]);
+  const yearBranchIdx = BRANCHES.indexOf(yearPillarStr[1]);
+
+  const monthBranchIdx = getMonthBranchIndex(year, month, day);
+  const monthStemIdx = getMonthStemIndex(yearStemIdx, monthBranchIdx);
+
+  const { stemIdx: dayStemIdx, branchIdx: dayBranchIdx } = getDayPillar(year, month, day);
+  const { stemIdx: hourStemIdx, branchIdx: hourBranchIdx } = getHourPillar(dayStemIdx, hour);
+
+  return {
+    year: buildPillarInfo(yearStemIdx, yearBranchIdx),
+    month: buildPillarInfo(monthStemIdx, monthBranchIdx),
+    day: buildPillarInfo(dayStemIdx, dayBranchIdx),
+    time: buildPillarInfo(hourStemIdx, hourBranchIdx),
+  };
+}
+
+// ── Main calculate function ────────────────────────────────────
+async function calculateBazi() {
+  // Validate inputs
+  const year = parseInt(document.getElementById('birth-year').value);
+  const month = parseInt(document.getElementById('birth-month').value);
+  const day = parseInt(document.getElementById('birth-day').value);
+  const hour = parseInt(document.getElementById('birth-hour').value);
+  const minute = parseInt(document.getElementById('birth-minute').value) || 0;
+  const city = cityInput.value.trim();
+
+  if (!year || !month || !day || isNaN(hour)) {
+    showToast('Please fill in your date and time of birth.');
+    return;
+  }
+  if (!city) {
+    showToast('Please enter your city of birth.');
+    return;
+  }
+
+  // True solar time
+  let solarHour = hour;
+  let solarMinute = minute;
+  let solarTimeNote = `Local time ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')} used for calculation.`;
+
+  if (cityData && cityData.lon !== undefined) {
+    const solar = calcTrueSolarTime(year, month, day, hour, minute, cityData.lon);
+    solarHour = solar.hour;
+    solarMinute = solar.minute;
+    solarTimeNote = `True Solar Time applied: local ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')} → solar ${String(solarHour).padStart(2,'0')}:${String(solarMinute).padStart(2,'0')} (${city}, lon ${cityData.lon.toFixed(2)}°)`;
+  }
+
+  // Show loading
+  document.getElementById('loading-section').classList.add('visible');
+  document.getElementById('results-section').classList.remove('visible');
+  document.getElementById('calculate-btn').disabled = true;
+  window.scrollTo({ top: document.getElementById('loading-section').offsetTop - 80, behavior: 'smooth' });
+
+  // Save to DB if name/WA provided
+  const userName = document.getElementById('user-name').value.trim();
+  const waNumber = document.getElementById('wa-number').value.trim();
+  const countryCode = document.getElementById('country-code').value;
+
+  if (waNumber) {
+    const fullWa = countryCode + waNumber.replace(/\s/g, '');
+    try {
+      await fetch('/.netlify/functions/save-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: userName || null,
+          whatsapp: fullWa,
+          city_of_birth: city,
+          date_of_birth: `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,
+          time_of_birth: `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`,
+          gender: selectedGender
+        })
+      });
+    } catch {}
+  }
+
+  // Run all 3 calculators in parallel
+  const [alvamindResult, tinytinyResult, gmuliResult] = await Promise.all([
+    fetchAlvamind(year, month, day, solarHour, selectedGender),
+    fetchTinytiny(year, month, day, solarHour),
+    Promise.resolve({ source: 'gmuli', pillars: calcGmuliPillars(year, month, day, solarHour) })
+  ]);
+
+  // Render
+  document.getElementById('loading-section').classList.remove('visible');
+  document.getElementById('calculate-btn').disabled = false;
+
+  const dateStr = `${day}/${month}/${year}`;
+  const timeStr = `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`;
+  document.getElementById('result-subject').textContent =
+    `${userName || 'Anonymous'} · ${city} · ${dateStr} ${timeStr} · ${selectedGender.charAt(0).toUpperCase() + selectedGender.slice(1)}`;
+  document.getElementById('solar-time-note').textContent = solarTimeNote;
+
+  const container = document.getElementById('results-container');
+  container.innerHTML = '';
+
+  const results = [alvamindResult, tinytinyResult, gmuliResult];
+  results.forEach(res => {
+    container.appendChild(buildResultBox(res));
+  });
+
+  document.getElementById('results-section').classList.add('visible');
+  setTimeout(() => {
+    window.scrollTo({ top: document.getElementById('results-section').offsetTop - 80, behavior: 'smooth' });
+  }, 100);
+}
+
+async function fetchAlvamind(year, month, day, hour, gender) {
+  try {
+    const res = await fetch('/.netlify/functions/bazi-alvamind', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year, month, day, hour, gender })
+    });
+    return await res.json();
+  } catch (e) {
+    return { source: 'alvamind', error: e.message };
+  }
+}
+
+async function fetchTinytiny(year, month, day, hour) {
+  try {
+    const res = await fetch('/.netlify/functions/bazi-tinytiny', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ year, month, day, hour })
+    });
+    return await res.json();
+  } catch (e) {
+    return { source: 'tinytinydev', error: e.message };
+  }
+}
+
+// ── Render result box ─────────────────────────────────────────
+const SOURCE_LABELS = {
+  'alvamind': { title: 'Alvamind Calculator', badge: 'bazi-calculator-by-alvamind · npm' },
+  'tinytinydev': { title: 'Tinytiny Converter', badge: 'bazi-converter · npm' },
+  'gmuli': { title: 'Gmuli Bazi Calc', badge: 'Gmuli-Bazi-Calc · GitHub' }
+};
+
+const EL_COLORS = {
+  Wood: '#4a7c45', WOOD: '#4a7c45',
+  Fire: '#c0392b', FIRE: '#c0392b',
+  Earth: '#8b7355', EARTH: '#8b7355',
+  Metal: '#6a6a6a', METAL: '#6a6a6a',
+  Water: '#2e6da4', WATER: '#2e6da4'
+};
+
+function buildResultBox(res) {
+  const box = document.createElement('div');
+  box.className = 'result-box';
+
+  const label = SOURCE_LABELS[res.source] || { title: res.source, badge: '' };
+
+  box.innerHTML = `
+    <div class="result-box-header">
+      <span class="result-box-title">${label.title}</span>
+      <span class="result-box-badge">${label.badge}</span>
+    </div>
+    <div class="result-box-body" id="body-${res.source}"></div>
+  `;
+
+  const body = box.querySelector(`#body-${res.source}`);
+
+  if (res.error) {
+    body.innerHTML = `<div class="result-error">Unable to retrieve results from this calculator. (${res.error})</div>`;
+    return box;
+  }
+
+  const pillars = res.pillars;
+  const pillarLabels = { year: 'Year', month: 'Month', day: 'Day', time: 'Hour' };
+
+  // Pillars grid
+  let pillarsHtml = '<div class="pillars-grid">';
+  ['year','month','day','time'].forEach(key => {
+    const p = pillars[key];
+    if (!p) return;
+    const stemEl = p.stemElement || p.stemEnglish || '';
+    const branchEl = p.branchElement || p.branchEnglish || '';
+    const color = EL_COLORS[stemEl] || '#8b7355';
+    const animal = p.animal || '';
+    pillarsHtml += `
+      <div class="pillar-card">
+        <div class="pillar-label">${pillarLabels[key]}</div>
+        <div class="pillar-chinese">${p.chinese || ''}</div>
+        <div class="pillar-stem" style="color:${color}">
+          <span class="pillar-element-dot" style="background:${color}"></span>${p.stem || ''} · ${stemEl}
+        </div>
+        <div class="pillar-branch">${p.branch || ''} · ${animal}</div>
+        ${branchEl ? `<div class="pillar-branch" style="font-size:12px;color:var(--text-light)">${branchEl}</div>` : ''}
+      </div>`;
+  });
+  pillarsHtml += '</div>';
+
+  body.innerHTML = pillarsHtml;
+
+  // Additional info (alvamind only)
+  if (res.additionalInfo) {
+    const ai = res.additionalInfo;
+    let extraHtml = '<div class="additional-info"><div class="additional-info-title">Additional Information</div><div class="info-grid">';
+
+    if (ai.chineseString) {
+      extraHtml += `<div class="info-item"><div class="info-item-label">Full String</div><div class="info-item-value" style="font-size:18px;letter-spacing:0.1em">${ai.chineseString}</div></div>`;
+    }
+    if (ai.dayMaster) {
+      extraHtml += `<div class="info-item"><div class="info-item-label">Day Master</div><div class="info-item-value">${ai.dayMaster.stem} · ${ai.dayMaster.element}</div></div>`;
+    }
+    if (ai.lifeGua) {
+      extraHtml += `<div class="info-item"><div class="info-item-label">Life Gua</div><div class="info-item-value">${ai.lifeGua}</div></div>`;
+    }
+    if (ai.nobleman?.length) {
+      extraHtml += `<div class="info-item"><div class="info-item-label">Nobleman Stars</div><div class="info-item-value">${ai.nobleman.join(' · ')}</div></div>`;
+    }
+    if (ai.intelligence) {
+      extraHtml += `<div class="info-item"><div class="info-item-label">Intelligence Star</div><div class="info-item-value">${ai.intelligence}</div></div>`;
+    }
+    if (ai.peachBlossom) {
+      extraHtml += `<div class="info-item"><div class="info-item-label">Peach Blossom</div><div class="info-item-value">${ai.peachBlossom}</div></div>`;
+    }
+    extraHtml += '</div>';
+
+    if (ai.fiveFactors) {
+      const ff = ai.fiveFactors;
+      const maxVal = Math.max(...Object.values(ff), 1);
+      extraHtml += `<div class="five-elements"><div class="info-item-label" style="margin-bottom:10px">Five Elements Distribution</div>`;
+      Object.entries(ff).forEach(([el, val]) => {
+        const pct = Math.round((val / maxVal) * 100);
+        const color = EL_COLORS[el] || '#8b7355';
+        extraHtml += `
+          <div class="five-el-row">
+            <div class="five-el-name" style="color:${color}">${el.charAt(0) + el.slice(1).toLowerCase()}</div>
+            <div class="five-el-bar-wrap"><div class="five-el-bar" style="width:${pct}%;background:${color}"></div></div>
+            <div class="five-el-count">${typeof val === 'number' ? val.toFixed(1) : val}</div>
+          </div>`;
+      });
+      extraHtml += '</div>';
+    }
+
+    extraHtml += '</div>';
+    body.innerHTML += extraHtml;
+  }
+
+  return box;
+}
+
+// ── Save to PDF ────────────────────────────────────────────────
+function saveToPDF() {
+  window.print();
+}
+
+// ── Toast notification ─────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
