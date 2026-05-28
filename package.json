@@ -1,13 +1,5 @@
 {
   "name": "herbal-ancestry",
   "version": "1.0.0",
-  "description": "喝安 Herbal Ancestry - Ba Zi Analysis",
-  "scripts": {
-    "dev": "netlify dev"
-  },
-  "dependencies": {
-    "bazi-calculator-by-alvamind": "^1.0.0",
-    "bazi-converter": "^1.0.0",
-    "@supabase/supabase-js": "^2.49.4"
-  }
+  "description": "喝安 Herbal Ancestry - Ba Zi Analysis"
 }

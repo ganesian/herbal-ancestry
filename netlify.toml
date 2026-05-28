@@ -1,20 +1,7 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  command = "npm install"
-
-[functions]
-  node_bundler = "esbuild"
-  included_files = ["netlify/functions/dates_mapping.json"]
-
-[functions."bazi-alvamind"]
-  external_node_modules = []
-
-[functions."bazi-tinytiny"]
-  external_node_modules = ["bazi-converter"]
-
-[functions."save-user"]
-  external_node_modules = ["@supabase/supabase-js"]
+  command = "echo 'No build step required'"
 
 [[headers]]
   for = "/*"
