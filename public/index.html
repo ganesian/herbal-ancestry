@@ -1190,15 +1190,20 @@ function calcGmuliPillars(year, month, day, hour) {
 // ── Main calculate function ────────────────────────────────────
 async function calculateBazi() {
   // Validate inputs
-  const year = parseInt(document.getElementById('birth-year').value);
+  const year  = parseInt(document.getElementById('birth-year').value);
   const month = parseInt(document.getElementById('birth-month').value);
-  const day = parseInt(document.getElementById('birth-day').value);
-  const hour = parseInt(document.getElementById('birth-hour').value);
+  const day   = parseInt(document.getElementById('birth-day').value);
+  const hourRaw = document.getElementById('birth-hour').value;
+  const hour  = hourRaw === '' ? NaN : parseInt(hourRaw);
   const minute = parseInt(document.getElementById('birth-minute').value) || 0;
-  const city = cityInput.value.trim();
+  const city  = cityInput.value.trim();
 
-  if (!year || !month || !day || isNaN(hour)) {
-    showToast('Please fill in your date and time of birth.');
+  if (!year || !month || !day) {
+    showToast('Please select your complete date of birth.');
+    return;
+  }
+  if (isNaN(hour)) {
+    showToast('Please select your time of birth.');
     return;
   }
   if (!city) {
@@ -1209,13 +1214,17 @@ async function calculateBazi() {
   // True solar time
   let solarHour = hour;
   let solarMinute = minute;
-  let solarTimeNote = `Local time ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')} used for calculation.`;
+  let solarTimeNote = `Local time ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')} used (city coordinates not resolved — select a city from the dropdown for true solar time).`;
 
   if (cityData && cityData.lon !== undefined) {
-    const solar = calcTrueSolarTime(year, month, day, hour, minute, cityData.lon);
-    solarHour = solar.hour;
-    solarMinute = solar.minute;
-    solarTimeNote = `True Solar Time applied: local ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')} → solar ${String(solarHour).padStart(2,'0')}:${String(solarMinute).padStart(2,'0')} (${city}, lon ${cityData.lon.toFixed(2)}°)`;
+    try {
+      const solar = calcTrueSolarTime(year, month, day, hour, minute, cityData.lon);
+      solarHour = solar.hour;
+      solarMinute = solar.minute;
+      solarTimeNote = `True Solar Time applied: local ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')} → solar ${String(solarHour).padStart(2,'0')}:${String(solarMinute).padStart(2,'0')} (${city}, lon ${cityData.lon.toFixed(2)}°)`;
+    } catch (e) {
+      console.warn('Solar time calculation failed:', e);
+    }
   }
 
   // Show loading
@@ -1224,37 +1233,35 @@ async function calculateBazi() {
   document.getElementById('calculate-btn').disabled = true;
   window.scrollTo({ top: document.getElementById('loading-section').offsetTop - 80, behavior: 'smooth' });
 
-  // Save to DB if name/WA provided
-  const userName = document.getElementById('user-name').value.trim();
-  const waNumber = document.getElementById('wa-number').value.trim();
+  // Save to DB if WA provided (fire and forget — never blocks results)
+  const userName   = document.getElementById('user-name').value.trim();
+  const waNumber   = document.getElementById('wa-number').value.trim();
   const countryCode = document.getElementById('country-code').value;
 
   if (waNumber) {
     const fullWa = countryCode + waNumber.replace(/\s/g, '');
-    try {
-      await fetch('/.netlify/functions/save-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: userName || null,
-          whatsapp: fullWa,
-          city_of_birth: city,
-          date_of_birth: `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,
-          time_of_birth: `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`,
-          gender: selectedGender
-        })
-      });
-    } catch {}
+    fetch('/.netlify/functions/save-user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: userName || null,
+        whatsapp: fullWa,
+        city_of_birth: city,
+        date_of_birth: `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,
+        time_of_birth: `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`,
+        gender: selectedGender
+      })
+    }).catch(e => console.warn('DB save failed (non-blocking):', e));
   }
 
-  // Run all 3 calculators in parallel
+  // Run all 3 calculators — each wrapped individually so one failure never blocks others
   const [alvamindResult, tinytinyResult, gmuliResult] = await Promise.all([
     fetchAlvamind(year, month, day, solarHour, selectedGender),
     fetchTinytiny(year, month, day, solarHour),
-    Promise.resolve({ source: 'gmuli', pillars: calcGmuliPillars(year, month, day, solarHour) })
+    fetchGmuli(year, month, day, solarHour)
   ]);
 
-  // Render
+  // Always render — hide loading regardless of results
   document.getElementById('loading-section').classList.remove('visible');
   document.getElementById('calculate-btn').disabled = false;
 
@@ -1267,8 +1274,7 @@ async function calculateBazi() {
   const container = document.getElementById('results-container');
   container.innerHTML = '';
 
-  const results = [alvamindResult, tinytinyResult, gmuliResult];
-  results.forEach(res => {
+  [alvamindResult, tinytinyResult, gmuliResult].forEach(res => {
     container.appendChild(buildResultBox(res));
   });
 
@@ -1285,9 +1291,17 @@ async function fetchAlvamind(year, month, day, hour, gender) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ year, month, day, hour, gender })
     });
-    return await res.json();
+    const text = await res.text();
+    if (!res.ok) {
+      return { source: 'alvamind', error: `Server returned ${res.status}: ${text.slice(0, 200)}` };
+    }
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { source: 'alvamind', error: `Invalid JSON response: ${text.slice(0, 200)}` };
+    }
   } catch (e) {
-    return { source: 'alvamind', error: e.message };
+    return { source: 'alvamind', error: `Network error: ${e.message}` };
   }
 }
 
@@ -1298,10 +1312,29 @@ async function fetchTinytiny(year, month, day, hour) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ year, month, day, hour })
     });
-    return await res.json();
+    const text = await res.text();
+    if (!res.ok) {
+      return { source: 'tinytinydev', error: `Server returned ${res.status}: ${text.slice(0, 200)}` };
+    }
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { source: 'tinytinydev', error: `Invalid JSON response: ${text.slice(0, 200)}` };
+    }
   } catch (e) {
-    return { source: 'tinytinydev', error: e.message };
+    return { source: 'tinytinydev', error: `Network error: ${e.message}` };
   }
+}
+
+function fetchGmuli(year, month, day, hour) {
+  return new Promise(resolve => {
+    try {
+      const pillars = calcGmuliPillars(year, month, day, hour);
+      resolve({ source: 'gmuli', pillars });
+    } catch (e) {
+      resolve({ source: 'gmuli', error: `Calculation error: ${e.message}` });
+    }
+  });
 }
 
 // ── Render result box ─────────────────────────────────────────
@@ -1336,7 +1369,12 @@ function buildResultBox(res) {
   const body = box.querySelector(`#body-${res.source}`);
 
   if (res.error) {
-    body.innerHTML = `<div class="result-error">Unable to retrieve results from this calculator. (${res.error})</div>`;
+    body.innerHTML = `
+      <div class="result-error">
+        <div style="font-weight:500;margin-bottom:6px;color:var(--brown)">This calculator returned an error</div>
+        <div style="font-family:monospace;font-size:13px;background:var(--ivory-dark);padding:10px;border-radius:4px;word-break:break-all;text-align:left;">${res.error}</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-light)">The other calculators above may still have results.</div>
+      </div>`;
     return box;
   }
 
