@@ -1,5 +1,18 @@
 {
-  "name": "herbal-ancestry",
+  "name": "hehe-herbal-ancestry",
   "version": "1.0.0",
-  "description": "喝安 Herbal Ancestry - Ba Zi Analysis"
+  "description": "喝安 Herbal Ancestry — Ba Zi analysis and herbal drink recommendation",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
 }

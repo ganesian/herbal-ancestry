@@ -1,18 +1,16 @@
 [build]
-  publish = "public"
-  functions = "netlify/functions"
-  command = "echo 'No build step required'"
+  command   = "echo 'No build step'"
+  publish   = "."
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
+[functions]
+  directory       = "netlify/functions"
+  node_bundler    = "esbuild"
+  included_files  = ["netlify/functions/dates_mapping.json"]
 
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type"
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/:splat"
+  status = 200
+
+[dev]
+  port = 8888

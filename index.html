@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="喝安 Herbal Ancestry — Ba Zi elemental analysis and personalized herbal drink recommendations." />
+  <title>喝安 Herbal Ancestry</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    喝安
+    <span class="logo-sub">Herbal Ancestry</span>
+  </div>
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button id="btn-en" class="active" aria-pressed="true">EN</button>
+    <button id="btn-id" aria-pressed="false">ID</button>
+  </div>
+</header>
+
+<!-- ── Hero ───────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ba Zi · 四柱命理</div>
+    <h1 class="hero-title serif">
+      <span data-en="Discover your" data-id="Temukan">Discover your</span>
+      <span> </span><span>elemental balance.</span><br />
+      <span style="color:var(--gold)" data-en="Choose your drink." data-id="Pilih minumanmu.">Choose your drink.</span>
+    </h1>
+    <p class="hero-sub" data-en="Ancient Ba Zi wisdom meets everyday herbal wellness." data-id="Kearifan Ba Zi kuno bertemu kesehatan herbal sehari-hari.">
+      Ancient Ba Zi wisdom meets everyday herbal wellness.
+    </p>
+
+    <!-- Form Card -->
+    <div class="form-card">
+
+      <!-- City of Birth -->
+      <div class="form-row full">
+        <div class="field-wrap">
+          <label class="field-label" for="city-input" data-en="CITY OF BIRTH" data-id="KOTA KELAHIRAN">CITY OF BIRTH</label>
+          <div class="city-wrap">
+            <input type="text" id="city-input" placeholder="City of birth" autocomplete="off" />
+            <div id="city-dropdown" class="autocomplete-dropdown hidden" role="listbox"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date of Birth -->
+      <div class="field-wrap" style="margin-bottom:16px">
+        <label class="field-label" data-en="DATE OF BIRTH" data-id="TANGGAL LAHIR">DATE OF BIRTH</label>
+        <div class="form-row thirds" style="margin-bottom:0">
+          <select id="birth-year" aria-label="Year">
+            <option value="" disabled selected data-en="Year" data-id="Tahun">Year</option>
+          </select>
+          <select id="birth-month" aria-label="Month">
+            <option value="" disabled selected data-en="Month" data-id="Bulan">Month</option>
+          </select>
+          <select id="birth-day" aria-label="Day">
+            <option value="" disabled selected data-en="Day" data-id="Hari">Day</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Time of Birth -->
+      <div class="field-wrap" style="margin-bottom:16px">
+        <label class="field-label" data-en="TIME OF BIRTH (LOCAL)" data-id="WAKTU LAHIR (LOKAL)">TIME OF BIRTH (LOCAL)</label>
+        <div class="form-row" style="margin-bottom:0">
+          <select id="birth-hour" aria-label="Hour"></select>
+          <select id="birth-min" aria-label="Minute"></select>
+        </div>
+      </div>
+
+      <!-- Gender -->
+      <div class="field-wrap" style="margin-bottom:16px">
+        <label class="field-label" data-en="GENDER" data-id="JENIS KELAMIN">GENDER</label>
+        <div class="gender-row">
+          <div class="gender-option">
+            <input type="radio" name="gender" id="gender-m" value="male" checked />
+            <label for="gender-m" data-en="Male" data-id="Pria">Male</label>
+          </div>
+          <div class="gender-option">
+            <input type="radio" name="gender" id="gender-f" value="female" />
+            <label for="gender-f" data-en="Female" data-id="Wanita">Female</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Optional: Name -->
+      <div class="form-row full">
+        <div class="field-wrap">
+          <label class="field-label" data-en="NAME (OPTIONAL)" data-id="NAMA (OPSIONAL)">NAME (OPTIONAL)</label>
+          <input type="text" id="name-input" placeholder="Your name (optional)" />
+        </div>
+      </div>
+
+      <!-- Optional: WhatsApp -->
+      <div class="form-row full">
+        <div class="field-wrap">
+          <label class="field-label" data-en="WHATSAPP (OPTIONAL)" data-id="WHATSAPP (OPSIONAL)">WHATSAPP (OPTIONAL)</label>
+          <div class="wa-wrap">
+            <select id="cc-select" aria-label="Country code"></select>
+            <input type="tel" id="wa-input" placeholder="WhatsApp number (optional)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button class="analyze-btn" id="analyze-btn">Analyze My Ba Zi</button>
+    </div>
+
+    <div class="scroll-hint" data-en="↓ Scroll down for your reading" data-id="↓ Gulir ke bawah untuk hasil bacaan">
+      ↓ Scroll down for your reading
+    </div>
+  </div>
+</section>
+
+<!-- ── Results Section ─────────────────────────────────────────── -->
+<div class="results-section hidden" id="results-section">
+
+  <!-- Solar Time Badge -->
+  <div class="solar-badge" id="solar-time-badge"></div>
+
+  <!-- 1. Pillars -->
+  <h2 class="section-title serif">
+    <span data-en="Your Four Pillars" data-id="Empat Pilar Anda">Your Four Pillars</span>
+  </h2>
+  <p class="section-sub" data-en="Each pillar represents a dimension of your elemental blueprint." data-id="Setiap pilar mewakili dimensi cetak biru elemen Anda.">
+    Each pillar represents a dimension of your elemental blueprint.
+  </p>
+
+  <div class="pillars-grid" id="pillars-container"></div>
+
+  <!-- Day Master -->
+  <div class="daymaster-row" id="daymaster-display"></div>
+
+  <hr class="section-divider" />
+
+  <!-- 2. Five Factors -->
+  <h2 class="section-title serif">
+    <span data-en="Five Elements" data-id="Lima Elemen">Five Elements</span>
+    <span style="color:var(--gold)"> Balance</span>
+  </h2>
+  <p class="section-sub" data-en="Your elemental distribution, weighted by TCM relationship principles." data-id="Distribusi elemen Anda, ditimbang berdasarkan prinsip hubungan TCM.">
+    Your elemental distribution, weighted by TCM relationship principles.
+  </p>
+
+  <div class="five-factors-wrap">
+    <div id="five-factors-bars"></div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- 3. Drink Recommendations -->
+  <div class="drink-recs-wrap">
+    <h2 class="section-title serif">
+      <span data-en="Your Drink" data-id="Rekomendasi">Your Drink</span>
+      <span style="color:var(--gold)" data-en=" Recommendations" data-id=" Minuman Anda"> Recommendations</span>
+    </h2>
+    <p class="section-sub" data-en="Based on your elemental profile, these drinks support your balance." data-id="Berdasarkan profil elemen Anda, minuman ini mendukung keseimbangan Anda.">
+      Based on your elemental profile, these drinks support your balance.
+    </p>
+
+    <div class="weak-el-row">
+      <span class="weak-el-label" data-en="Weakest Elements:" data-id="Elemen Terlemah:">Weakest Elements:</span>
+      <div id="weak-elements"></div>
+    </div>
+
+    <div class="drink-grid" id="drink-cards"></div>
+  </div>
+
+  <!-- PDF Button -->
+  <div class="pdf-btn-wrap">
+    <button class="pdf-btn" id="pdf-btn">
+      ↓ <span data-en="Save to PDF" data-id="Simpan ke PDF">Save to PDF</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- ── Footer ──────────────────────────────────────────────────── -->
+<footer>
+  <button class="contact-cta-btn" id="contact-cta">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span data-en="Contact Us for 1-on-1 Ba Zi Exclusive Reading" data-id="Hubungi Kami untuk Konsultasi Ba Zi Eksklusif">Contact Us for 1-on-1 Ba Zi Exclusive Reading</span>
+  </button>
+
+  <hr class="footer-divider" />
+
+  <div class="footer-logo">喝安 Herbal Ancestry</div>
+  <p class="footer-note" data-en="Ba Zi readings are for wellness guidance only. Consult a licensed TCM practitioner for medical decisions." data-id="Pembacaan Ba Zi hanya untuk panduan kesehatan. Konsultasikan dengan praktisi TCM berlisensi untuk keputusan medis.">
+    Ba Zi readings are for wellness guidance only. Consult a licensed TCM practitioner for medical decisions.
+  </p>
+</footer>
+
+<!-- ── Toast ────────────────────────────────────────────────────── -->
+<div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+<!-- ── Scripts ──────────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
